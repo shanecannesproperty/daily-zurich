@@ -25,6 +25,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { siteName, siteTagline, siteDomain, cityName, cityAccent, cityCoords, citySlug, citySocialLinks, cityLaunched , cityBcp47 } from "../lib/city";
 import { SiteFooter } from "../components/SiteFooter";
 import { ScrollTriggeredCTA } from "../components/ScrollTriggeredCTA";
+import { ExitIntentPopup } from "../components/ExitIntentPopup";
 import { WeekendEditionPopup } from "../components/WeekendEditionPopup";
 import { PushNotifyPrompt } from "../components/PushNotifyPrompt";
 import { LoyaltyBar } from "../components/LoyaltyBar";
@@ -329,6 +330,7 @@ function RootComponent() {
       <SiteFooter />
       <ScrollTriggeredCTA />
       <WeekendEditionPopup />
+      <ExitIntentPopup />
       <PushNotifyPrompt />
       <StickyNewsletterBar />
       <AskCanberraLauncher />
