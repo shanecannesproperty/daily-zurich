@@ -12,4 +12,12 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    define: {
+      // Hard-pin city at build time: each per-city deploy serves the correct content
+      // regardless of which VITE_SITE_CITY the Lovable project inherited from remix.
+      // Vite define takes precedence over .env and project-level env settings.
+      "import.meta.env.VITE_SITE_CITY": JSON.stringify("zurich"),
+    },
+  },
 });
