@@ -308,14 +308,12 @@ function ArticlePage() {
 
         <div className="container-read mt-8">
           <div className="mt-3 flex justify-end print:hidden">
-            {!article.audio_url && (
-              <ListenButton
+            <ListenButton
               audioUrl={article.audio_url}
               title={article.title}
               bodyHtml={article.body_html}
               dek={article.dek}
             />
-            )}
           </div>
 
 
