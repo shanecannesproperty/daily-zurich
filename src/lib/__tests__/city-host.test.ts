@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { resolveCityFromHost, CITY_BRANDING } from "@/lib/city-config";
+import { resolveCityFromHost } from "@/lib/city-config";
 // Import for side effect: registers the AsyncLocalStorage on globalThis so
 // the isomorphic citySlug() getter can find it during tests.
 import { getCityFromContext, runWithCity, runWithCityFromHost } from "@/lib/city-context.server";
@@ -35,46 +35,35 @@ describe("resolveCityFromHost", () => {
 });
 
 describe("city AsyncLocalStorage", () => {
-  // This project pins a city at build time via VITE_SITE_CITY (see .env). The
-  // env pin takes precedence over hostname resolution and over AsyncLocalStorage
-  // so a per-project deploy serves its city everywhere. Expectations are derived
-  // from the pinned city's branding so this test is correct in EVERY per-city
-  // repo (not just Sydney) — citySlug() returns the env pin when no ALS context
-  // is active.
-  const PINNED = citySlug();
-  const B = CITY_BRANDING[PINNED];
-
-  it("env pin wins over runWithCity in per-project deploys", () => {
-    runWithCity("melbourne", () => {
-      expect(getCityFromContext()).toBe("melbourne");
-      expect(citySlug()).toBe(PINNED);
-      expect(cityName()).toBe(B.name);
-      expect(siteName()).toBe(B.siteName);
-      expect(siteDomain()).toBe(B.domain);
+  it("exposes the slug inside runWithCity", () => {
+    runWithCity("sydney", () => {
+      expect(getCityFromContext()).toBe("sydney");
+      expect(citySlug()).toBe("sydney");
+      expect(cityName()).toBe("Sydney");
+      expect(siteName()).toBe("The Daily Sydney");
+      expect(siteDomain()).toBe("https://dailysydney.com.au");
     });
   });
 
-  it("falls back to the env-pinned city outside any request context", () => {
+  it("resolves canberra outside any request context", () => {
     expect(getCityFromContext()).toBeUndefined();
-    expect(citySlug()).toBe(PINNED);
-    expect(siteName()).toBe(B.siteName);
+    expect(citySlug()).toBe("canberra");
+    expect(siteName()).toBe("The Daily Canberra");
   });
 
-  it("runWithCityFromHost still normalises the ALS slug even when env pin wins", () => {
+  it("runWithCityFromHost normalises and pins the slug", () => {
     runWithCityFromHost("www.dailymelbourne.com.au:443", () => {
-      expect(getCityFromContext()).toBe("melbourne");
-      expect(citySlug()).toBe(PINNED);
+      expect(citySlug()).toBe("melbourne");
+      expect(siteDomain()).toBe("https://dailymelbourne.com.au");
     });
     runWithCityFromHost("id-preview--abc.lovable.app", () => {
-      expect(getCityFromContext()).toBe("canberra");
-      expect(citySlug()).toBe(PINNED);
+      expect(citySlug()).toBe("canberra");
     });
   });
 
-  it("runWithCity normalises unknown slugs to canberra in ALS", () => {
+  it("falls back to canberra for unknown slugs passed to runWithCity", () => {
     runWithCity("atlantis", () => {
-      expect(getCityFromContext()).toBe("canberra");
-      expect(citySlug()).toBe(PINNED);
+      expect(citySlug()).toBe("canberra");
     });
   });
 });
