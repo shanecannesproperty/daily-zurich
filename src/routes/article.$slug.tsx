@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useLang, LANG_META } from "@/lib/i18n";
+import { supabase } from "@/integrations/supabase/client";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { Clock, Eye } from "lucide-react";
@@ -89,8 +92,43 @@ function formatViewCount(n: number): string {
 }
 
 
+function TranslationBar({ lang, loading }: { lang: string; loading: boolean }) {
+  const { native, setLang, t } = useLang();
+  if (lang === "en") {
+    return (
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border border-[var(--hairline)] bg-[var(--surface,#fff)] px-3 py-2 text-sm normal-case tracking-normal">
+        <span className="inline-flex items-center gap-1.5"><span aria-hidden>{LANG_META[native]?.flag}</span>{t("showTranslation")}</span>
+        <button type="button" onClick={() => setLang(native)} className="underline hover:no-underline">{LANG_META[native]?.label}</button>
+      </div>
+    );
+  }
+  return (
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border border-[var(--hairline)] bg-[var(--surface,#fff)] px-3 py-2 text-sm normal-case tracking-normal">
+      <span className="inline-flex items-center gap-1.5 text-[var(--ink-grey,#6b6b6b)]" aria-live="polite"><span aria-hidden>{LANG_META[lang]?.flag}</span>{loading ? t("translating") : t("translated")}</span>
+      <button type="button" onClick={() => setLang("en")} className="underline hover:no-underline">{t("readOriginal")}</button>
+    </div>
+  );
+}
+
 function ArticlePage() {
   const { article, related } = useSuspenseQuery(articleQuery(Route.useParams().slug)).data;
+  const { lang, multilingual } = useLang();
+  const wantTranslation = multilingual && lang !== "en";
+  const { data: tr, isFetching: trFetching } = useQuery({
+    queryKey: ["article-translation", article.id, lang],
+    enabled: wantTranslation,
+    staleTime: 24 * 60 * 60 * 1000,
+    queryFn: async () => {
+      const { data, error } = await supabase.functions.invoke("translate-article", {
+        body: { article_id: article.id, slug: article.slug, lang },
+      });
+      if (error) throw error;
+      return data as { title?: string; dek?: string; body_html?: string };
+    },
+  });
+  const displayTitle = (wantTranslation && tr?.title) || article.title;
+  const displayDek = wantTranslation && tr?.dek != null ? tr.dek : article.dek;
+  const displayBody: string = (wantTranslation && tr?.body_html) || article.body_html || "";
   const track = useTrackEvent();
   const trackView = useServerFn(trackArticleView);
   const slug = article?.slug;
@@ -195,8 +233,8 @@ function ArticlePage() {
           )}
           <p className="kicker mt-2">{CATEGORY_LABELS[article.category]}</p>
 
-          <h1 className="h1-news mt-2">{article.title}</h1>
-          {article.dek && <p className="dek mt-4">{article.dek}</p>}
+          <h1 className="h1-news mt-2">{displayTitle}</h1>
+          {displayDek && <p className="dek mt-4">{displayDek}</p>}
           <ShareRow slug={article.slug} title={article.title} />
           <div className="mt-4 flex flex-wrap gap-2">
             {Array.from(
@@ -321,9 +359,12 @@ function ArticlePage() {
           <QuickSummary bodyHtml={article.body_html} summary={(article as unknown as { summary?: string | null }).summary ?? null} />
 
 
+          {multilingual && (
+            <TranslationBar lang={lang} loading={wantTranslation && trFetching && !tr} />
+          )}
           {article.body_html ? (() => {
             const bodyClass = isLongForm ? "prose-news long-form-body" : "prose-news";
-            const parts = article.body_html.split("</p>");
+            const parts = displayBody.split("</p>");
             const poll = pickPollForSlug(article.slug);
             if (parts.length > 4) {
               const intro = parts.slice(0, 2).join("</p>") + "</p>";
@@ -355,7 +396,7 @@ function ArticlePage() {
             }
             return (
               <>
-                <div className={bodyClass} dangerouslySetInnerHTML={{ __html: article.body_html }} />
+                <div className={bodyClass} dangerouslySetInnerHTML={{ __html: displayBody }} />
                 <InlineSubscribeCTA />
               </>
             );

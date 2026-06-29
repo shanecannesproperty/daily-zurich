@@ -4,6 +4,8 @@ import { Wordmark } from "./Wordmark";
 import { DarkModeToggle } from "./DarkModeToggle";
 import { HeaderWeatherStrip } from "./HeaderWeatherStrip";
 import { SavedNavBadge } from "./SavedNavBadge";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useT, type UiKey } from "@/lib/i18n";
 import { ARTICLE_CATEGORIES, CATEGORY_LABELS } from "@/lib/schema";
 import { cityBcp47, cityName, citySlug, cityTimezone, siteName, siteTagline } from "@/lib/city";
 
@@ -88,23 +90,33 @@ function allGroups(): { title: string; items: NavItem[] }[] {
 void ARTICLE_CATEGORIES;
 void CATEGORY_LABELS;
 
+const NAV_KEY: Record<string, UiKey> = {
+  "/": "home", "/today": "today", "/news": "news", "/finance": "finance",
+  "/property": "property", "/wellness": "wellness", "/sport": "sport",
+  "/events": "events", "/subscribe": "subscribe", "/advertise": "advertise",
+  "/world": "world",
+};
+
 function PrimaryItem({ item, activePath }: { item: NavItem; activePath?: string }) {
+  const t = useT();
   const active = activePath === item.href;
+  const label = NAV_KEY[item.href] ? t(NAV_KEY[item.href]) : item.label;
   if (item.asLink) {
     return (
       <Link to={item.href} data-active={active} className="nav-link">
-        {item.label}
+        {label}
       </Link>
     );
   }
   return (
     <a href={item.href} data-active={active} className="nav-link">
-      {item.label}
+      {label}
     </a>
   );
 }
 
 export function SiteHeader({ activePath }: { activePath?: string }) {
+  const t = useT();
   return (
     <header className="bg-background">
       {/* Top strip: date left, weather centre, subscribe right */}
@@ -116,11 +128,12 @@ export function SiteHeader({ activePath }: { activePath?: string }) {
           <HeaderWeatherStrip />
           <div className="flex items-center gap-2">
             <DarkModeToggle />
+            <LanguageSwitcher />
             <Link
               to="/subscribe"
               className="rounded-sm bg-[var(--ink-red)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white no-underline hover:opacity-90"
             >
-              Subscribe Free
+              {t("subscribeFree")}
             </Link>
           </div>
         </div>
@@ -158,7 +171,7 @@ export function SiteHeader({ activePath }: { activePath?: string }) {
                   <span />
                   <span />
                 </span>
-                <span>All Sections</span>
+                <span>{t("allSections")}</span>
               </summary>
               <NavPanel activePath={activePath} />
             </details>
@@ -186,7 +199,7 @@ export function SiteHeader({ activePath }: { activePath?: string }) {
                 <circle cx="11" cy="11" r="7" />
                 <path d="m20 20-3.5-3.5" />
               </svg>
-              <span>Search</span>
+              <span>{t("search")}</span>
             </a>
             <SavedNavBadge />
           </div>
@@ -200,7 +213,7 @@ export function SiteHeader({ activePath }: { activePath?: string }) {
                   <span />
                   <span />
                 </span>
-                <span>Menu</span>
+                <span>{t("menu")}</span>
               </summary>
               <NavPanel activePath={activePath} />
             </details>

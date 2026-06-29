@@ -24,6 +24,9 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { siteName, siteTagline, siteDomain, cityName, cityAccent, cityCoords, citySlug, citySocialLinks, cityLaunched , cityBcp47 } from "../lib/city";
 import { SiteFooter } from "../components/SiteFooter";
+import { LangProvider } from "../lib/i18n";
+import { LanguageSuggestBanner } from "../components/LanguageSuggestBanner";
+import { slugToNativeLang } from "../lib/city-config";
 import { ScrollTriggeredCTA } from "../components/ScrollTriggeredCTA";
 import { ExitIntentPopup } from "../components/ExitIntentPopup";
 import { WeekendEditionPopup } from "../components/WeekendEditionPopup";
@@ -299,7 +302,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang={cityBcp47()}>
+    <html lang={slugToNativeLang(citySlug()) === "en" ? cityBcp47() : slugToNativeLang(citySlug())} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
@@ -316,6 +319,7 @@ function RootComponent() {
   const { data: tokens } = useSuspenseQuery(designTokenQuery);
   return (
     <QueryClientProvider client={queryClient}>
+      <LangProvider>
       {tokens?.css ? <style dangerouslySetInnerHTML={{ __html: tokens.css }} /> : null}
       <SkipToContent />
       <PageViewTracker />
@@ -324,6 +328,7 @@ function RootComponent() {
       <FailureBanner />
       <BreakingNewsBanner />
       <NewsTicker />
+      <LanguageSuggestBanner />
       <Outlet />
       <LoyaltyBar />
       <NetworkStrip />
@@ -341,6 +346,7 @@ function RootComponent() {
 
 
 
+      </LangProvider>
     </QueryClientProvider>
   );
 }

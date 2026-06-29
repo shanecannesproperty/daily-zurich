@@ -79,6 +79,29 @@ export function slugToBcp47(slug: string): string {
   return REGION_TO_BCP47[region] ?? "en";
 }
 
+const SLUG_TO_NATIVE_LANG: Record<string, string> = {
+  paris: "fr",
+  barcelona: "es", madrid: "es", mexicocity: "es", buenosaires: "es", santiago: "es",
+  berlin: "de", frankfurt: "de", zurich: "de",
+  milan: "it",
+  amsterdam: "nl",
+  saopaulo: "pt",
+  tokyo: "ja",
+  shanghai: "zh",
+  bangkok: "th",
+  jakarta: "id",
+  istanbul: "tr",
+  dubai: "ar", cairo: "ar",
+  hochiminhcity: "vi",
+  mumbai: "hi", delhi: "hi",
+};
+export function slugToNativeLang(slug: string): string {
+  return SLUG_TO_NATIVE_LANG[slug] ?? "en";
+}
+export function cityIsMultilingual(slug: string): boolean {
+  return slugToNativeLang(slug) !== "en";
+}
+
 const CITY_GA4: Record<string, string> = {
   canberra: "G-GT1V5ZBWCM", sydney: "G-7NHKXC75ZB", melbourne: "G-2G3BT4P78P",
   perth: "G-3Z80958Z6E", brisbane: "G-CZ8XMMP8N5", goldcoast: "G-Z1GPQMJLG2",
