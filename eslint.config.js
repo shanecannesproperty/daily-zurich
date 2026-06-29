@@ -47,6 +47,7 @@ export default tseslint.config(
     files: ["**/*.{ts,tsx}"],
     rules: {
       "prettier/prettier": "warn",
+      "no-empty": ["error", { allowEmptyCatch: true }],
       "@typescript-eslint/no-explicit-any": "warn",
     },
   },
