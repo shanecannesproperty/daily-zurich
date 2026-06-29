@@ -22,7 +22,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { siteName, siteTagline, siteDomain, cityName, cityAccent, cityCoords, citySlug, citySocialLinks, cityLaunched } from "../lib/city";
+import { siteName, siteTagline, siteDomain, cityName, cityAccent, cityCoords, citySlug, citySocialLinks, cityLaunched , cityBcp47 } from "../lib/city";
 import { SiteFooter } from "../components/SiteFooter";
 import { ScrollTriggeredCTA } from "../components/ScrollTriggeredCTA";
 import { WeekendEditionPopup } from "../components/WeekendEditionPopup";
@@ -231,7 +231,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: cityAccent() },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: siteName() },
-      { property: "og:locale", content: "en_AU" },
+      { property: "og:locale", content: cityBcp47().replace("-", "_") },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "google-site-verification", content: "zIjVnZiEpcBUcYhqSwiusu_VJQP6CEFTDNjNhsU61fk" },
       { name: "google-site-verification", content: "n7ukK9Rhbx3oa3CKUzGkGQVZEatKGmfsxYvWLnGO29A" },
@@ -298,7 +298,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en-GB">
+    <html lang={cityBcp47()}>
       <head>
         <HeadContent />
       </head>

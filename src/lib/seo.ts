@@ -1,4 +1,4 @@
-import { cityName, siteDomain, siteName, SITE_LOCALE } from "./city";
+import { cityName, cityBcp47, siteDomain, siteName } from "./city";
 
 export function absUrl(path: string) {
   const clean = path.startsWith("/") ? path : `/${path}`;
@@ -54,7 +54,7 @@ export function buildMeta(opts: MetaOpts): MetaTag[] {
     { property: "og:url", content: url },
     { property: "og:type", content: ogType },
     { property: "og:site_name", content: siteName() },
-    { property: "og:locale", content: SITE_LOCALE },
+    { property: "og:locale", content: cityBcp47().replace("-", "_") },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: opts.title },
     { name: "twitter:description", content: opts.description },
@@ -80,7 +80,7 @@ export function canonicalLinks(path: string) {
   const href = absUrl(path);
   return [
     { rel: "canonical", href },
-    { rel: "alternate", hrefLang: "en-AU", href },
+    { rel: "alternate", hrefLang: cityBcp47(), href },
     { rel: "alternate", hrefLang: "x-default", href },
   ];
 }
