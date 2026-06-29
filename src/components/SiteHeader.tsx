@@ -32,7 +32,7 @@ const PRIMARY: NavItem[] = [
   { href: "/today", label: "Today", asLink: true },
   { href: "/news", label: "News" },
   { href: "/sport", label: "Sport" },
-  { href: "/business", label: "Business" },
+  { href: "/finance", label: "Finance" },
   { href: "/property", label: "Property" },
   { href: "/events", label: "Events" },
 ];
@@ -50,7 +50,6 @@ function allGroups(): { title: string; items: NavItem[] }[] {
         { href: "/federal", label: "Federal" },
         { href: "/world", label: "The World" },
         { href: "/finance", label: "Finance" },
-        { href: "/business", label: "Business" },
         { href: "/community", label: "Community" },
         { href: "/sport", label: "Sport" },
         { href: "/live", label: "Live blog" },
