@@ -268,7 +268,10 @@ function WeatherPage() {
           {current ? (
             <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6 md:gap-10 items-center">
               <div className="flex items-center gap-6">
-                <div className="text-6xl md:text-7xl" aria-hidden>
+                <div
+                  className="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center text-5xl md:text-6xl leading-none"
+                  aria-hidden
+                >
                   {describeWeather(current.weatherCode).icon}
                 </div>
                 <div>
