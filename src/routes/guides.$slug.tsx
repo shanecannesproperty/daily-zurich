@@ -1,0 +1,161 @@
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { getGuideBySlug } from "@/lib/data.functions";
+import { SiteHeader } from "@/components/SiteHeader";
+import { JsonLd } from "@/components/JsonLd";
+import { buildMeta, canonicalLinks, absUrl } from "@/lib/seo";
+import { cityName, siteName } from "@/lib/city";
+
+function guideQ(slug: string) {
+  return queryOptions({
+    queryKey: ["guide", slug],
+    queryFn: () => getGuideBySlug({ data: { slug } }),
+  });
+}
+
+export const Route = createFileRoute("/guides/$slug")({
+  loader: async ({ context, params }) => {
+    const data = await context.queryClient.ensureQueryData(guideQ(params.slug));
+    if (!data.guide) throw notFound();
+    return data;
+  },
+  head: ({ loaderData }) => {
+    const g = loaderData?.guide;
+    if (!g) return { meta: [{ title: `Not found | ${siteName()}` }] };
+    const entries = loaderData?.entries ?? [];
+    const heroImage = entries.find((e) => e.image_url)?.image_url ?? null;
+    const title = g.seo_title ?? `${g.title} | ${siteName()}`;
+    const description = g.meta_description ?? `${g.title}. Curated guide from ${siteName()}.`;
+    return {
+      meta: buildMeta({
+        title,
+        description,
+        path: `/guides/${g.slug}`,
+        type: "article",
+        image: heroImage,
+        section: "City Guides",
+      }),
+      links: canonicalLinks(`/best/${g.slug}`),
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: g.title,
+            description,
+            url: absUrl(`/guides/${g.slug}`),
+            itemListElement: entries.map((e, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              item: {
+                "@type": "LocalBusiness",
+                name: e.business_name,
+                address: e.suburb ?? undefined,
+                url: e.website_url ?? undefined,
+                telephone: e.phone ?? undefined,
+              },
+            })),
+          }),
+        },
+      ],
+    };
+  },
+  component: GuidePage,
+});
+
+function GuidePage() {
+  const { guide, entries } = useSuspenseQuery(guideQ(Route.useParams().slug)).data;
+  if (!guide) return null;
+  return (
+    <>
+      <SiteHeader activePath="/guides" />
+      <main className="container-read py-10">
+        <nav className="meta mb-4">
+          <Link to="/guides">← Back to City Guides</Link>
+        </nav>
+        <p className="kicker">City Guides</p>
+        <h1 className="h1-news mt-2">{guide.title}</h1>
+        {guide.intro_html && (
+          <div
+            className="prose-news mt-5"
+            dangerouslySetInnerHTML={{ __html: guide.intro_html }}
+          />
+        )}
+      </main>
+
+      <section className="container-news py-6">
+        {entries.length > 0 && <ol className="divide-y divide-[var(--hairline)] border-t border-[var(--ink)]">
+          {entries.map((e, i) => (
+            <li
+              key={e.id}
+              className={`py-8 grid gap-6 md:grid-cols-12 ${
+                e.is_featured ? "bg-[var(--surface)] px-4 -mx-4" : ""
+              }`}
+            >
+              <div className="md:col-span-1 serif text-3xl">{i + 1}</div>
+              {e.image_url && (
+                <img
+                  src={e.image_url}
+                  alt={e.business_name}
+                  className="md:col-span-4 aspect-[3/2] w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+              <div className={e.image_url ? "md:col-span-7" : "md:col-span-11"}>
+                <div className="flex flex-wrap items-center gap-2">
+                  {e.is_featured && (
+                    <span aria-label="Featured" title="Featured">★</span>
+                  )}
+                  <h3 className="h2-news">{e.business_name}</h3>
+                  {e.is_sponsored && (
+                    <span className="meta text-[var(--ink-soft)] uppercase tracking-widest text-[11px]">
+                      Sponsored
+                    </span>
+                  )}
+                </div>
+                {e.suburb && <p className="meta mt-1">{e.suburb}</p>}
+                {e.blurb && <p className="serif mt-3">{e.blurb}</p>}
+                {e.website_url && (
+                  <p className="mt-4">
+                    <a
+                      href={e.website_url}
+                      target="_blank"
+                      rel="noopener"
+                      className="btn-primary inline-block"
+                    >
+                      Visit Website
+                    </a>
+                  </p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>}
+
+        <p className="meta mt-10 border-t border-[var(--hairline)] pt-6">
+          This guide was generated by AI. Business details including trading hours, prices and contact information may change. Confirm current details directly with the business before visiting. See our{" "}
+          <a href="/editorial-standards">editorial standards</a>.
+        </p>
+      </section>
+
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: absUrl("/") },
+            { "@type": "ListItem", position: 2, name: "City Guides", item: absUrl("/guides") },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: guide.title,
+              item: absUrl(`/guides/${guide.slug}`),
+            },
+          ],
+        }}
+      />
+    </>
+  );
+}

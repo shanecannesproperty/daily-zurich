@@ -1,0 +1,55 @@
+import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+
+// Multi-size raster .ico (16/32/48) built from Canberra favicon PNGs.
+// Google's image crawler requires a real raster .ico at /favicon.ico to
+// show a site favicon in search results (SVG at this path = blank globe).
+const FAVICON_ICO_BASE64 =
+  "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";
+
+// Decoded bytes are memoised after the first successful decode. We do NOT
+// decode at module top level: if the literal above is ever malformed, atob()
+// throws synchronously and, when that happens during SSR module init, it
+// crashes the entire route tree (every page returns 500), not just the icon.
+// Keeping the decode lazy + guarded means a corrupt favicon can at worst
+// degrade to a 204 No Content on /favicon.ico while the rest of the site
+// keeps serving.
+let cachedFaviconBytes: Uint8Array | null = null;
+let faviconDecodeFailed = false;
+
+function getFaviconBytes(): Uint8Array | null {
+  if (cachedFaviconBytes) return cachedFaviconBytes;
+  if (faviconDecodeFailed) return null;
+  try {
+    const binary = atob(FAVICON_ICO_BASE64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    cachedFaviconBytes = bytes;
+    return bytes;
+  } catch (err) {
+    faviconDecodeFailed = true;
+    console.error("[favicon.ico] failed to decode base64 literal:", err);
+    return null;
+  }
+}
+
+export const Route = createFileRoute("/favicon.ico")({
+  server: {
+    handlers: {
+      GET: () => {
+        const bytes = getFaviconBytes();
+        if (!bytes) {
+          // Never throw from this handler — a broken icon must not take down SSR.
+          return new Response(null, { status: 204 });
+        }
+        return new Response(bytes as BlobPart, {
+          headers: {
+            "Content-Type": "image/x-icon",
+            "Cache-Control": "public, max-age=3600",
+          },
+        });
+      },
+    },
+  },
+});
+

@@ -1,0 +1,835 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * The Daily Canberra design system.
+ * Ink on paper. Two type families. Red used only for masthead rule,
+ * kicker, primary CTA, active nav underline, and breaking badge.
+ */
+
+@theme inline {
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --radius-2xl: 2px;
+  --radius-3xl: 2px;
+  --radius-4xl: 2px;
+  --radius: 0px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--background);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--ink-red);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--surface);
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--surface);
+  --color-muted-foreground: var(--ink-grey);
+  --color-accent: var(--surface);
+  --color-accent-foreground: var(--foreground);
+  --color-destructive: var(--ink-live);
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--hairline);
+  --color-input: var(--hairline);
+  --color-ring: var(--ink-red);
+  --color-ring-offset-background: var(--background);
+  --color-sidebar: var(--surface);
+  --color-sidebar-foreground: var(--foreground);
+  --color-sidebar-primary: var(--ink-red);
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: var(--surface);
+  --color-sidebar-accent-foreground: var(--foreground);
+  --color-sidebar-border: var(--hairline);
+  --color-sidebar-ring: var(--ink-red);
+  --color-chart-1: var(--ink);
+  --color-chart-2: var(--ink-grey);
+  --color-chart-3: var(--ink-red);
+  --color-chart-4: var(--hairline);
+  --color-chart-5: var(--ink);
+
+  --color-ink: var(--ink);
+  --color-ink-grey: var(--ink-grey);
+  --color-hairline: var(--hairline);
+  --color-surface: var(--surface);
+  --color-ink-red: var(--ink-red);
+  --color-ink-red-hover: var(--ink-red-hover);
+  --color-ink-live: var(--ink-live);
+
+  --font-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --font-serif-text: Georgia, "Source Serif 4", "Times New Roman", serif;
+  --font-sans: "Fira Sans", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+:root {
+  --background: #f5f3ee;
+  --foreground: #2d2d2d;
+  --surface: #e8e4dd;
+  --paper: #f5f3ee;
+  --ink: #2d2d2d;
+  --ink-grey: #4f4c46;
+  --hairline: #d6d2c8;
+  --ink-red: #a32d2d;
+  --ink-red-hover: #7e2020;
+  --ink-live: #c0392b;
+
+  /* Design Agent levers (defaults; agent may override at runtime). */
+  --dc-container-max: 1180px;
+  --dc-container-pad: 20px;
+  --dc-section-gap: 40px;
+  --dc-h1-size-min: 32px;
+  --dc-h1-size-max: 56px;
+  --dc-h2-size-min: 22px;
+  --dc-h2-size-max: 30px;
+  --dc-h3-size: 21px;
+  --dc-dek-size: 18px;
+  --dc-body-size: 17px;
+  --dc-body-line: 1.65;
+  --dc-headline-line: 1.02;
+  --dc-kicker-track: 0.12em;
+  --dc-hairline-weight: 1px;
+  --dc-rule-weight: 2px;
+  --dc-card-pad: 0px;
+}
+
+/* Dark mode — applied when <html class="dark"> is set. Overrides only the
+   semantic ink/paper tokens so the editorial layout stays intact. */
+html.dark {
+  --background: #14151a;
+  --foreground: #ececec;
+  --surface: #1d1f26;
+  --paper: #14151a;
+  --ink: #ececec;
+  --ink-grey: #b8b6b1;
+  --ink-muted: #8a8a8a;
+  --hairline: #2c2f37;
+  --ink-red: #e26a6a;
+  --ink-red-hover: #ef8a8a;
+  --ink-live: #ff5a4a;
+}
+html.dark body {
+  background: var(--background);
+  color: var(--ink);
+}
+html.dark img {
+  filter: brightness(0.92);
+}
+
+@layer base {
+  * {
+    border-color: var(--hairline);
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--background);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--dc-body-size, 17px);
+    line-height: var(--dc-body-line, 1.65);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  .serif {
+    font-family: var(--font-serif);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--hairline);
+    text-underline-offset: 3px;
+  }
+  a:hover {
+    text-decoration-color: var(--ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--ink-red);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .container-news {
+    width: 100%;
+    max-width: var(--dc-container-max, 1180px);
+    margin-inline: auto;
+    padding-inline: var(--dc-container-pad, 20px);
+  }
+  .container-read {
+    width: 100%;
+    max-width: 680px;
+    margin-inline: auto;
+    padding-inline: var(--dc-container-pad, 20px);
+  }
+  .hairline {
+    border-top: var(--dc-hairline-weight, 1px) solid var(--hairline);
+  }
+  .kicker {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: var(--dc-kicker-track, 0.12em);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-red);
+  }
+  .meta {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink-grey);
+  }
+  .h-display {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: var(--dc-headline-line, 1.02);
+    letter-spacing: -0.02em;
+  }
+  .h1-news {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(var(--dc-h1-size-min, 32px), 5.2vw, var(--dc-h1-size-max, 56px));
+    line-height: var(--dc-headline-line, 1.02);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .h2-news {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(var(--dc-h2-size-min, 22px), 2.6vw, var(--dc-h2-size-max, 30px));
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .h3-card {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: var(--dc-h3-size, 21px);
+    line-height: 1.12;
+    letter-spacing: -0.005em;
+  }
+  .dek {
+    font-family: var(--font-serif-text);
+    font-weight: 400;
+    font-size: var(--dc-dek-size, 18px);
+    line-height: 1.5;
+    color: var(--ink-grey);
+  }
+  .nav-link {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 14px 2px;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    white-space: nowrap;
+    transition:
+      color 120ms ease,
+      border-color 120ms ease;
+  }
+  .nav-link:hover {
+    text-decoration: none;
+    color: var(--ink-red);
+    border-bottom-color: var(--ink-red);
+  }
+  .nav-link[data-active="true"] {
+    color: var(--ink-red);
+    border-bottom-color: var(--ink-red);
+  }
+  .nav-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .nav-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  /* All Sections / Menu trigger */
+  .nav-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 14px 6px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+  .nav-trigger::-webkit-details-marker {
+    display: none;
+  }
+  .nav-trigger:hover {
+    color: var(--ink-red);
+    text-decoration: none;
+  }
+  .nav-burger {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 16px;
+    height: 11px;
+  }
+  .nav-burger > span {
+    display: block;
+    height: 1.5px;
+    background: currentColor;
+    width: 100%;
+  }
+  /* Native <details> based panel */
+  /* Native <details> based panel. The panel spans the full nav width by
+     anchoring to the <nav> element, not to the small <summary> trigger. */
+  .nav-panel {
+    position: static;
+  }
+  .nav-panel[open] > .nav-panel-body {
+    display: block;
+  }
+  .nav-panel-body {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--bg, #f5f3ee);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 3px solid var(--ink);
+    z-index: 40;
+    box-shadow: 0 24px 40px -28px rgba(0, 0, 0, 0.25);
+  }
+  .nav-panel-link {
+    display: inline-block;
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.15;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 2px 0;
+    border-bottom: 1px solid transparent;
+  }
+  .nav-panel-link:hover {
+    color: var(--ink-red);
+    border-bottom-color: var(--ink-red);
+    text-decoration: none;
+  }
+  .nav-panel-link[data-active="true"] {
+    color: var(--ink-red);
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink-red);
+    color: #ffffff;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 12px 18px;
+    border: 1px solid var(--ink-red);
+    min-height: 44px;
+    transition: background 120ms ease;
+  }
+  .btn-primary:hover {
+    background: var(--ink-red-hover);
+    border-color: var(--ink-red-hover);
+    text-decoration: none;
+  }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 11px 16px;
+    border: 1px solid var(--ink);
+    min-height: 44px;
+  }
+  .btn-ghost:hover {
+    background: var(--surface);
+    text-decoration: none;
+  }
+  .badge-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ink-live);
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    padding: 3px 7px;
+  }
+  .label-sponsored {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 2px 6px;
+  }
+  .prose-news {
+    font-family: var(--font-serif-text);
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .prose-news p {
+    margin: 0 0 1.1em 0;
+  }
+  .prose-news h2 {
+    font-size: 24px;
+    margin: 1.6em 0 0.5em;
+    line-height: 1.2;
+  }
+  .prose-news h3 {
+    font-size: 20px;
+    margin: 1.4em 0 0.4em;
+  }
+  .prose-news a {
+    text-decoration: underline;
+    text-decoration-color: var(--ink-grey);
+  }
+  .prose-news blockquote {
+    border-left: 2px solid var(--ink);
+    padding-left: 18px;
+    margin: 1.4em 0;
+    font-style: italic;
+    color: var(--ink-grey);
+  }
+  .prose-news img {
+    max-width: 100%;
+    height: auto;
+    margin: 1.2em 0;
+  }
+  .field {
+    display: block;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--ink);
+    padding: 12px 14px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--ink);
+    min-height: 44px;
+  }
+  .field:focus {
+    outline: 2px solid var(--ink-red);
+    outline-offset: -1px;
+  }
+  .label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .honeypot {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--hairline);
+    color: var(--ink-grey);
+    transition:
+      border-color 120ms ease,
+      color 120ms ease;
+    text-decoration: none;
+  }
+  .share-btn:hover {
+    border-color: var(--ink-red);
+    color: var(--ink-red);
+    text-decoration: none;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes imgShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.img-shimmer {
+  background-color: oklch(0.95 0.005 80);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--ink) 4%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: imgShimmer 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img-shimmer {
+    animation: none !important;
+  }
+}
+
+/* Print-optimised article view. The article body uses .container-read and
+   .prose-news; everything else (header, footer, sidebars, share, related,
+   trending, comments, banners, modals) is hidden so a printed page reads as
+   title + byline + body + site URL at the bottom. */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+  }
+  header,
+  footer,
+  nav,
+  aside,
+  button,
+  [role="dialog"],
+  [role="banner"],
+  [role="navigation"],
+  .print\:hidden {
+    display: none !important;
+  }
+  /* Component-level chrome */
+  .reading-progress,
+  .sticky-newsletter-bar {
+    display: none !important;
+  }
+  /* Article content */
+  main,
+  article,
+  .container-read,
+  .prose-news {
+    background: #fff !important;
+    color: #000 !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+  a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+  a[href]:after {
+    content: "";
+  }
+  .h1-news,
+  h1 {
+    font-size: 22pt;
+    line-height: 1.2;
+  }
+  .dek {
+    font-size: 13pt;
+  }
+  .meta {
+    font-size: 9pt;
+    color: #444 !important;
+  }
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+  /* Site URL footer for printed page */
+  main::after {
+    content: "dailycanberra.com.au — local news, every morning.";
+    display: block;
+    margin-top: 24pt;
+    padding-top: 8pt;
+    border-top: 1px solid #999;
+    font-size: 9pt;
+    color: #555;
+    text-align: center;
+  }
+}
+
+/* News ticker — continuous left-scroll marquee. The track contains the
+   headlines list duplicated twice; translating -50% loops seamlessly. */
+.news-ticker__track {
+  animation: news-ticker-scroll 45s linear infinite;
+  will-change: transform;
+}
+.news-ticker:hover .news-ticker__track,
+.news-ticker:focus-within .news-ticker__track {
+  animation-play-state: paused;
+}
+@keyframes news-ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .news-ticker__track {
+    animation: none;
+  }
+}
+
+/* Long-form article template. Activated by adding `.long-form-body` to the
+   prose-news wrapper for articles >1500 words (or `long_form=true` in DB).
+   Bumps blockquote + pull-quote sizing to mirror The Atlantic / Guardian
+   long-read presentation. */
+.long-form-body blockquote,
+.long-form-body p[data-pull-quote="true"] {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 1.6rem;
+  line-height: 1.35;
+  margin: 2rem 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--accent, #a32d2d);
+  color: var(--ink, #2d2d2d);
+}
+@media (min-width: 1024px) {
+  .long-form-body blockquote,
+  .long-form-body p[data-pull-quote="true"] {
+    font-size: 1.9rem;
+    margin: 2.5rem -1.5rem;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-[fadeInUp"] {
+    animation: none !important;
+  }
+}
+
+/* Newsletter confirmation envelope: bounces in once on mount.
+   Respects prefers-reduced-motion for accessibility. */
+@keyframes envelopeBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) translateY(-6px);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.12) translateY(0);
+  }
+  75% {
+    transform: scale(0.95) translateY(2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+.envelope-bounce {
+  animation: envelopeBounceIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .envelope-bounce {
+    animation: none !important;
+  }
+}
+
+/* ── Animated weather scenes (<WeatherScene>, used on /weather + homepage card).
+   Built from inline SVG + CSS rather than GIFs: scalable, a few KB, and they
+   honour prefers-reduced-motion. Each scene picks a subset of these classes. */
+@keyframes wx-drift {
+  from {
+    transform: translateX(-7%);
+  }
+  to {
+    transform: translateX(7%);
+  }
+}
+@keyframes wx-drift-slow {
+  from {
+    transform: translateX(-4%);
+  }
+  to {
+    transform: translateX(4%);
+  }
+}
+@keyframes wx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes wx-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+@keyframes wx-rain {
+  0% {
+    transform: translateY(-16px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(112px);
+    opacity: 0.1;
+  }
+}
+@keyframes wx-snow {
+  0% {
+    transform: translate(0, -14px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(7px, 112px);
+    opacity: 0.15;
+  }
+}
+@keyframes wx-flash {
+  0%,
+  90%,
+  100% {
+    opacity: 0;
+  }
+  92% {
+    opacity: 0.9;
+  }
+  94% {
+    opacity: 0.15;
+  }
+  96% {
+    opacity: 0.75;
+  }
+  98% {
+    opacity: 0;
+  }
+}
+@keyframes wx-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes wx-fog {
+  0% {
+    transform: translateX(-6%);
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(6%);
+    opacity: 0.45;
+  }
+}
+
+.wx-scene {
+  position: relative;
+  overflow: hidden;
+}
+.wx-spin {
+  animation: wx-spin 90s linear infinite;
+  transform-origin: center;
+}
+.wx-pulse {
+  animation: wx-pulse 5s ease-in-out infinite;
+  transform-origin: center;
+}
+.wx-cloud {
+  animation: wx-drift 9s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+.wx-cloud-2 {
+  animation: wx-drift-slow 13s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+.wx-drop {
+  animation: wx-rain linear infinite;
+}
+.wx-flake {
+  animation: wx-snow linear infinite;
+}
+.wx-flash {
+  animation: wx-flash 6s ease-in-out infinite;
+}
+.wx-star {
+  animation: wx-twinkle 3.5s ease-in-out infinite;
+}
+.wx-fogband {
+  animation: wx-fog 11s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wx-spin,
+  .wx-pulse,
+  .wx-cloud,
+  .wx-cloud-2,
+  .wx-drop,
+  .wx-flake,
+  .wx-flash,
+  .wx-star,
+  .wx-fogband {
+    animation: none !important;
+  }
+  .wx-drop,
+  .wx-flake {
+    opacity: 0.4 !important;
+  }
+}
