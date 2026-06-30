@@ -441,20 +441,27 @@ function ArticlePage() {
             </div>
           </section>
 
-          {article.source_urls && article.source_urls.length > 0 && (
-            <section className="mt-10 border-t border-[var(--hairline)] pt-6">
-              <h2 className="kicker">Sources</h2>
-              <ul className="mt-3 space-y-2">
-                {article.source_urls.map((u) => (
-                  <li key={u}>
-                    <a href={u} target="_blank" rel="noopener nofollow ugc" className="break-words">
-                      {u}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+          {(() => {
+            const sources = (article.source_urls && article.source_urls.length > 0)
+              ? article.source_urls
+              : article.source_url
+              ? [article.source_url]
+              : [];
+            return sources.length > 0 ? (
+              <section className="mt-10 border-t border-[var(--hairline)] pt-6">
+                <h2 className="kicker">Sources</h2>
+                <ul className="mt-3 space-y-2">
+                  {sources.map((u) => (
+                    <li key={u}>
+                      <a href={u} target="_blank" rel="noopener nofollow ugc" className="break-words">
+                        {u}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null;
+          })()}
 
           <section className="mt-12 border-t border-[var(--ink)] pt-6">
             <p className="kicker">About this article</p>
