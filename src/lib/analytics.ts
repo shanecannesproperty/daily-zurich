@@ -11,9 +11,9 @@ export function getGA4Id(): string {
   } catch {
     // server-side or pre-hydration — fall through
   }
-  return (import.meta.env.VITE_GA4_ID as string | undefined) || "G-GT1V5ZBWCM";
+  return (import.meta.env.VITE_GA4_ID as string | undefined) || "G-KKGLW3TERV";
 }
 
 // Legacy export kept for any direct imports that read GA4_ID as a constant.
 // Use getGA4Id() for runtime-resolved per-city tracking.
-export const GA4_ID: string = (import.meta.env.VITE_GA4_ID as string | undefined) || "G-GT1V5ZBWCM";
+export const GA4_ID: string = (import.meta.env.VITE_GA4_ID as string | undefined) || "G-KKGLW3TERV";
