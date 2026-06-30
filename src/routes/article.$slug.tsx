@@ -331,13 +331,19 @@ function ArticlePage() {
             />
             {article.hero_image_credit && (
               <figcaption className="meta mt-2">
-                Photo:{" "}
-                {article.hero_image_source ? (
-                  <a href={article.hero_image_source} target="_blank" rel="noopener nofollow">
-                    {article.hero_image_credit}
-                  </a>
-                ) : (
+                {article.hero_image_source === "https://magnific.com/ai" ? (
                   article.hero_image_credit
+                ) : (
+                  <>
+                    Photo:{" "}
+                    {article.hero_image_source ? (
+                      <a href={article.hero_image_source} target="_blank" rel="noopener nofollow">
+                        {article.hero_image_credit}
+                      </a>
+                    ) : (
+                      article.hero_image_credit
+                    )}
+                  </>
                 )}
               </figcaption>
             )}
