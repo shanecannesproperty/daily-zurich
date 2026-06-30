@@ -48,11 +48,11 @@ export function ArticleCard({
               {CATEGORY_LABELS[a.category]}
             </Link>
           </p>
-          <h1 className="text-h1 mt-2 max-w-[22ch]">
+          <h2 className="text-h1 mt-2 max-w-[22ch]">
             <Link to={href} className="no-underline hover:underline">
               {a.title}
             </Link>
-          </h1>
+          </h2>
           {a.dek && <p className="dek mt-3 max-w-[60ch]">{a.dek}</p>}
           <p className="meta mt-3">
             {a.author ? `By ${a.author}` : "AI-generated"}
