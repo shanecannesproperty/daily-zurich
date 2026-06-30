@@ -40,9 +40,10 @@ export function HeroImage({
   sizes?: string;
 }) {
   const imgRef = useRef<HTMLImageElement>(null);
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(true);
   const [failed, setFailed] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+  const isFirstMount = useRef(true);
 
   const handleFailure = () => {
     if (retryCount < MAX_RETRIES) {
@@ -54,6 +55,7 @@ export function HeroImage({
   };
 
   useEffect(() => {
+    if (isFirstMount.current) { isFirstMount.current = false; return; }
     setLoaded(false);
     setFailed(false);
     setRetryCount(0);
