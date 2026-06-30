@@ -37,12 +37,32 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   });
 }
 
+
+function addCacheHeaders(response: Response, request: Request): Response {
+  const url = new URL(request.url);
+  const isHtml = (response.headers.get("content-type") ?? "").includes("text/html");
+  const isCacheable =
+    response.status === 200 &&
+    isHtml &&
+    !url.pathname.startsWith("/admin") &&
+    !url.pathname.startsWith("/api") &&
+    !url.pathname.startsWith("/auth") &&
+    !url.pathname.startsWith("/r/");
+
+  if (!isCacheable) return response;
+
+  const headers = new Headers(response.headers);
+  headers.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=60");
+  return new Response(response.body, { status: response.status, headers });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      const normalized = await normalizeCatastrophicSsrResponse(response);
+      return addCacheHeaders(normalized, request);
     } catch (error) {
       console.error(error);
       return new Response(renderErrorPage(), {
