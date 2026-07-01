@@ -9,7 +9,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { SiteHeader } from "@/components/SiteHeader";
 import { JsonLd } from "@/components/JsonLd";
 import { buildMeta, canonicalLinks, absUrl } from "@/lib/seo";
-import { cityName, citySlug, cityTimezone, siteName, cityCoords } from "@/lib/city";
+import { cityName, citySlug, cityTimezone, cityBcp47, siteName, cityCoords } from "@/lib/city";
 import {
   getCityWeather,
   describeWeather,
@@ -304,7 +304,7 @@ function WeatherPage() {
                 {today?.sunset && <Stat label="Sunset" value={formatClock(today.sunset)} />}
                 <Stat
                   label="Updated"
-                  value={new Date(weather.fetchedAt).toLocaleTimeString("en-AU", {
+                  value={new Date(weather.fetchedAt).toLocaleTimeString(cityBcp47(), {
                     hour: "numeric",
                     minute: "2-digit",
                     timeZone: cityTimezone(),
@@ -379,7 +379,7 @@ function WeatherPage() {
             <ol className="mt-3 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
               {daily.map((d) => {
                 const w = describeWeather(d.weatherCode);
-                const day = new Date(d.date + "T00:00:00").toLocaleDateString("en-AU", {
+                const day = new Date(d.date + "T00:00:00").toLocaleDateString(cityBcp47(), {
                   weekday: "short",
                   timeZone: cityTimezone(),
                 });
