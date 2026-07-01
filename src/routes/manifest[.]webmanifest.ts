@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { siteName, cityName, cityAccent, siteDomain } from "@/lib/city";
+import { siteName, cityName, cityAccent, siteDomain , citySlug } from "@/lib/city"
+import { slugToNativeLang } from "@/lib/city-config";;
 import favicon192 from "@/assets/favicon-192.png.asset.json";
 import appleTouchIcon from "@/assets/apple-touch-icon.png.asset.json";
 
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/manifest.webmanifest")({
           orientation: "portrait",
           background_color: "#f5f3ee",
           theme_color: cityAccent(),
+          lang: slugToNativeLang(citySlug()),
           icons: [
             { src: icon192, sizes: "192x192", type: "image/png", purpose: "any" },
             { src: icon192, sizes: "192x192", type: "image/png", purpose: "maskable" },
