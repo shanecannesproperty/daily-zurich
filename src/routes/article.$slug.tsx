@@ -505,7 +505,7 @@ function ArticlePage() {
           },
           mainEntityOfPage: { "@type": "WebPage", "@id": absUrl(path) },
           articleSection: CATEGORY_LABELS[article.category],
-          inLanguage: "en-AU",
+          inLanguage: cityBcp47(),
           areaServed: { "@type": "City", name: cityName(), containedInPlace: { "@type": "State", name: cityRegion(), containedInPlace: { "@type": "Country", name: "Australia" } } },
         }}
       />
