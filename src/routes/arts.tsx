@@ -155,7 +155,7 @@ function ArtsPage() {
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           name: `Arts & Culture in ${city} | ${siteName()}`,
-          description: `Guide to arts, galleries, theatre, music and culture in ${city}, Australia.`,
+          description: `Guide to arts, galleries, theatre, music and culture in ${city}.`,
           url: absUrl("/arts"),
         }}
       />
