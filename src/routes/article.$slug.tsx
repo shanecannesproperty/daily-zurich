@@ -45,7 +45,7 @@ import { SponsoredBadge, isSponsored } from "@/components/SponsoredBadge";
 import { CategoryNav } from "@/components/CategoryNav";
 import { isRealImage } from "@/lib/media";
 import { buildMeta, canonicalLinks, absUrl, pageTitle, clampDescription } from "@/lib/seo";
-import { siteName, siteDomain, cityName, cityRegion, citySlug } from "@/lib/city";
+import { siteName, siteDomain, cityName, cityRegion, citySlug, cityBcp47 } from "@/lib/city";
 import { CATEGORY_LABELS } from "@/lib/schema";
 import { formatDateTime, isMeaningfullyUpdated, timeAgo, isoUtc } from "@/lib/date";
 
