@@ -8,6 +8,13 @@ import { SponsoredBadge, isSponsored } from "@/components/SponsoredBadge";
 import { SaveBookmark } from "@/components/SaveBookmark";
 import { FreshBadge } from "@/components/FreshBadge";
 
+function getReadingMins(bodyHtml: string | null | undefined): number {
+  if (!bodyHtml) return 0;
+  const words = bodyHtml.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().split(" ").filter(Boolean).length;
+  return words > 0 ? Math.max(1, Math.round(words / 200)) : 0;
+}
+
+
 export function ArticleCard({
   a,
   level = "standard",
@@ -17,6 +24,7 @@ export function ArticleCard({
 }) {
   const href = `/article/${a.slug}`;
   const hero = isRealImage(a.hero_image) ? a.hero_image : null;
+  const readMins = getReadingMins(a.body_html);
 
   if (level === "lead") {
     // Newspaper-style lead: full-width photo, headline and dek below.
@@ -57,6 +65,8 @@ export function ArticleCard({
           <p className="meta mt-3">
             {a.author ? `By ${a.author}` : "AI-generated"}
             {a.published_at && <> &middot; {formatDate(a.published_at)}</>}
+            {readMins > 0 && <> &middot; {readMins} min read</>}
+            {readMins > 0 && <> &middot; {readMins} min read</>}
           </p>
         </div>
       </article>
