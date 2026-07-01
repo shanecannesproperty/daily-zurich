@@ -154,7 +154,7 @@ function FoodPage() {
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           name: `Food & Dining in ${city} | ${siteName()}`,
-          description: `Guide to restaurants, cafes, food markets and dining in ${city}, Australia.`,
+          description: `Guide to restaurants, cafes, food markets and dining in ${city}.`,
           url: absUrl("/food"),
         }}
       />
