@@ -164,7 +164,7 @@ function SearchPage() {
                         <a href={`/event/${e.slug}`} className="no-underline hover:no-underline">
                           <p className="meta uppercase tracking-widest">
                             {e.start_at
-                              ? new Date(e.start_at).toLocaleDateString("en-AU", {
+                              ? new Date(e.start_at).toLocaleDateString(cityBcp47(), {
                                   weekday: "short",
                                   day: "numeric",
                                   month: "short",
