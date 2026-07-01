@@ -14,6 +14,7 @@ import { FeaturedDevelopment } from "@/components/FeaturedDevelopment";
 import { TopStoriesRotator } from "@/components/TopStoriesRotator";
 import { getWhatsOnEvents } from "@/lib/whatson.functions";
 import { SocialProofBanner } from "@/components/SocialProofBanner";
+import { BreakingNewsBanner } from "@/components/BreakingNewsBanner";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ArticleCard } from "@/components/ArticleCard";
 import { LoadMoreStories } from "@/components/LoadMoreStories";
@@ -176,6 +177,7 @@ function Home() {
   return (
     <>
       <SiteHeader activePath="/" />
+      <BreakingNewsBanner />
       <SocialProofBanner />
       <main>
         {/* Visually hidden H1 so every homepage layout has a single, descriptive
