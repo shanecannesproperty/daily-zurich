@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { siteDomain, siteName } from "@/lib/city";
+import { siteDomain, siteName, citySlug } from "@/lib/city";
+import { slugToNativeLang } from "@/lib/city-config";
 import { listAllPublishedArticleSlugs } from "@/lib/data.functions";
 
 function xmlEscape(s: string) {
@@ -39,7 +40,7 @@ export const Route = createFileRoute("/news-sitemap.xml")({
     <news:news>
       <news:publication>
         <news:name>${xmlEscape(siteName())}</news:name>
-        <news:language>en</news:language>
+        <news:language>${nativeLang}</news:language>
       </news:publication>
       <news:publication_date>${xmlEscape(a.pubIso ?? "")}</news:publication_date>
       <news:title>${xmlEscape(a.title)}</news:title>
