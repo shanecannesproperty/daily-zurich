@@ -119,6 +119,8 @@ function ThisWeekendPage() {
         {/* Hardcoded Canberra editorial pick: only render on the Canberra build
             so other cities never show Canberra-specific prose/landmarks. */}
         {citySlug() === "canberra" && (
+
+          {citySlug() === "canberra" && (
           <section className="mt-12 border-t border-[var(--ink)] pt-6">
             <h2 className="h2-news">One outdoor pick</h2>
             <div className="mt-4 max-w-2xl">
@@ -136,6 +138,8 @@ function ThisWeekendPage() {
               </p>
             </div>
           </section>
+
+          )}
         )}
 
         <section className="mt-12 border-t border-[var(--ink)] pt-10 pb-2">

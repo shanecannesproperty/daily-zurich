@@ -103,7 +103,7 @@ function LivePage() {
           <h1 className="h1-news mt-1">Live from {cityName()}</h1>
           <p className="dek mt-3 max-w-2xl">
             {citySlug() === "canberra"
-              ? "Tracked headlines from RiotACT, CityNews Canberra and ABC Canberra, newest first."
+              ? "Tracked headlines from trusted local news sources, newest first."
               : `Tracked ${cityName()} headlines from local and national sources, newest first.`}{" "}
             Every item credits its source and links back to the original report. We do not
             republish full articles.
