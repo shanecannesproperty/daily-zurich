@@ -506,6 +506,7 @@ function ArticlePage() {
           mainEntityOfPage: { "@type": "WebPage", "@id": absUrl(path) },
           articleSection: CATEGORY_LABELS[article.category],
           inLanguage: cityBcp47(),
+          wordCount: wordCount > 0 ? wordCount : undefined,
         }}
       />
       <JsonLd
