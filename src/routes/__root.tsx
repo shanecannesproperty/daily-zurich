@@ -237,6 +237,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: siteName() },
       { property: "og:locale", content: cityBcp47().replace("-", "_") },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "robots", content: "max-image-preview:large" },
+      { name: "googlebot", content: "max-image-preview:large" },
       { name: "google-site-verification", content: "zIjVnZiEpcBUcYhqSwiusu_VJQP6CEFTDNjNhsU61fk" },
       { name: "google-site-verification", content: "n7ukK9Rhbx3oa3CKUzGkGQVZEatKGmfsxYvWLnGO29A" },
       { name: "mobile-web-app-capable", content: "yes" },
