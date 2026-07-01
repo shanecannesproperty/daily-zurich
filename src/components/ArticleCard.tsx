@@ -62,10 +62,10 @@ export function ArticleCard({
             </Link>
           </h2>
           {a.dek && <p className="dek mt-3 max-w-[60ch]">{a.dek}</p>}
+          <div className="flex items-center gap-2 mt-3"><FreshBadge publishedAt={a.published_at} /></div>
           <p className="meta mt-3">
             {a.author ? `By ${a.author}` : "AI-generated"}
             {a.published_at && <> &middot; {formatDate(a.published_at)}</>}
-            {readMins > 0 && <> &middot; {readMins} min read</>}
             {readMins > 0 && <> &middot; {readMins} min read</>}
           </p>
         </div>
@@ -138,6 +138,7 @@ export function ArticleCard({
           {CATEGORY_LABELS[a.category]}
         </span>
         <span>{formatDate(a.published_at)}</span>
+        {readMins > 0 && <span>&middot; {readMins} min read</span>}
       </div>
     </article>
   );
