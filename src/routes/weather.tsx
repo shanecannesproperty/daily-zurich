@@ -161,7 +161,7 @@ function WeatherPage() {
     name: pageTitle,
     description: pageDescription,
     url: absUrl("/weather"),
-    about: { "@type": "Place", name: `${cityName()}, Australia` },
+    about: { "@type": "Place", name: cityName() },
   };
 
   const [cityLat, cityLon] = cityCoords();
