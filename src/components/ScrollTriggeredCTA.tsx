@@ -149,7 +149,7 @@ export function ScrollTriggeredCTA() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder={isCityAustralian() ? "you@example.com.au" : "you@example.com"}
+                placeholder={isCityAustralian() ? "you@example.com" : "you@example.com"}
                 autoComplete="email"
                 inputMode="email"
                 className="w-40 border border-white/20 bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-white/50 focus:border-[var(--ink-red)] sm:w-56"
