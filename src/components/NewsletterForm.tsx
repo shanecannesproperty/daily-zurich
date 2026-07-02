@@ -175,7 +175,7 @@ export function NewsletterForm({
           required
           autoComplete="email"
           inputMode="email"
-          placeholder="you@example.com.au"
+          placeholder="you@example.com"
           className="field flex-1"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
