@@ -123,7 +123,7 @@ export function StickyNewsletterBar() {
                 required
                 autoComplete="email"
                 inputMode="email"
-                placeholder={isCityAustralian() ? "you@example.com.au" : "you@example.com"}
+                placeholder={isCityAustralian() ? "you@example.com" : "you@example.com"}
                 className="field flex-1 min-w-0 !py-2 !text-sm"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
